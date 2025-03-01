@@ -1,8 +1,0 @@
-// JS Config (needed for Shadcn JS version)
-{
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["./*"]
-    }
-  }
-}
