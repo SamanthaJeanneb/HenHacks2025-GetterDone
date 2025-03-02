@@ -2,19 +2,38 @@ import { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Context } from '../src/context/Context';
 
-export default function AddTaskModal({ isOpen, onClose, onSave }) {
+export default function AddTaskModal({ isOpen, onClose }) {
   const [taskDescription, setTaskDescription] = useState("");
   const [category, setCategory] = useState("");
   const [priority, setPriority] = useState("");
   const [dueDate, setDueDate] = useState("");
   const { input, setInput, onSent, suggestedSubtasks } = useContext(Context);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (taskDescription && category && priority && dueDate) {
       const priorityMap = { Low: 1, Medium: 2, High: 3 };
-      const newTask = { description: taskDescription, category, priority: priorityMap[priority], date: dueDate };
+      const newTask = { objective: taskDescription, category, priority: priorityMap[priority], date: dueDate };
       console.log("New task:", newTask); // Debug log
-      onSave(newTask);
+
+      try {
+        const response = await fetch("http://localhost:8080/tasks/createTask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newTask),
+        });
+
+        if (response.ok) {
+          console.log("Task added successfully");
+          // Optionally, you can handle the response here
+        } else {
+          console.error("Failed to add task");
+        }
+      } catch (error) {
+        console.error("Error adding task:", error);
+      }
+
       setTaskDescription("");
       setCategory("");
       setPriority("");
@@ -24,7 +43,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
   };
 
   const handleSuggestSubtasks = () => {
-    onSent(taskDescription + "actually, dont answer in 1 sentence. instead answer three responses of 6 words or less seperated by a ; that explain the steps I would need to take to complete this task.", true);
+    onSent(taskDescription + " actually, don't answer in 1 sentence. Instead, answer three responses of 6 words or less separated by a semicolon that explain the steps I would need to take to complete this task.", true);
   };
 
   return (
