@@ -8,6 +8,7 @@ import NavigationBar from "../../components/NavigationBar";
 import CategorySidebar from "../../components/CategorySidebar";
 import { getAllTasks, createTask } from "../../lib/TaskUtils";
 import TaskPopup from '../../components/TaskPopup';
+import HelpMessage from '../../components/HelpMessage'; // Import HelpMessage
 import WorkNowModal from "../../components/WorkNowModal"; // Import WorkNowModal
 
 export default function TaskDashboardPage() {
@@ -140,6 +141,9 @@ export default function TaskDashboardPage() {
 
       {/* Task Popup */}
       <TaskPopup task={selectedTask} isOpen={isTaskPopupOpen} onClose={() => setIsTaskPopupOpen(false)} />
+
+      {/* Help Message */}
+      <HelpMessage />
 
       {/* Work Now Modal */}
       <WorkNowModal isOpen={isWorkNowModalOpen} onClose={() => setIsWorkNowModalOpen(false)} tasks={tasks} />

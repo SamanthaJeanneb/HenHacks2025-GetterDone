@@ -32,6 +32,30 @@ public class TaskController {
         return newTask;
     }
 
+
+
+
+    @PostMapping("/changeTask")
+    public void changeTask(@RequestBody TaskDTO taskDTO) {
+
+        String objective = taskDTO.getObjective();
+        String newObjective = taskDTO.getProposedChange();
+
+        int counter = 0;
+
+        for (Task task : taskList) {
+            if (task.getObjective().equals(objective)) {
+                taskList.get(counter).setObjective(newObjective);
+            }
+            else {
+                counter++;
+            }
+        }
+        System.out.println("Task updated");
+    }
+
+
+
     //functionality for removing tasks
     @PostMapping("/deleteTask")
     public String deleteTask(@RequestBody TaskDTO taskDTO) {
@@ -82,6 +106,42 @@ public class TaskController {
 
 
 
+
+    @PostMapping("/changeSubTask")
+    public void changeSubTask(@RequestBody SubTaskDTO subTaskDTO) {
+
+        String objective = subTaskDTO.getObjective();
+        String subObjective = subTaskDTO.getSubobjectives();
+        String newSubObjective = subTaskDTO.getProposedSubObjective();
+
+        int counter = 0;
+        int taskRef = 0; //default is 0 once again
+
+        for (Task task : taskList) {
+            if (task.getObjective().equals(objective)) {
+                taskRef = counter;
+            }
+            else {
+                counter++;
+            }
+        }
+
+        counter = 0;
+
+        for (SubTask task : taskList.get(taskRef).getSubTasks()) {
+            if (task.getSubObjective().equals(subObjective)){
+                taskList.get(taskRef).getSubTasks().get(counter).setSubObjective(newSubObjective);
+            }
+            else {
+                counter++;
+            }
+        }
+
+        System.out.println("Subtask updated");
+    }
+
+
+
     //functionality for removing subtasks allocated to tasks in the subtask arraylist
     @PostMapping("/deleteSubTask")
     public String deleteSubTask(@RequestBody SubTaskDTO subtaskDTO) {
@@ -108,6 +168,23 @@ public class TaskController {
     }
 
 
+
+    // Method to retrieve a subtask
+    @GetMapping("/getSubTask")
+    public SubTask getSubTask(@RequestBody TaskDTO taskDTO) {
+
+        String objective = taskDTO.getObjective();
+        SubTask theSubTask = new SubTask("null", "null");
+
+        for (Task task : taskList) {
+            for (SubTask subTask : task.getSubTasks()) {
+                if (subTask.getSubObjective().equals(objective)) {
+                    theSubTask = subTask;
+                }
+            }
+        }
+        return theSubTask;
+    }
 
 
     // Method to retrieve all subtasks of a particular task

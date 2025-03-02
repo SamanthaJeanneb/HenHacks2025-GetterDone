@@ -54,7 +54,7 @@ const Chatbox = () => {
             </button>
             {isOpen && (
                 <div className="chatbox-content">
-                    <div className="chatbox-header" style={{ backgroundColor: '#005c59', color: 'white' }}>
+                    <div className="chatbox-header" style={{ backgroundColor: 'white', color: 'white' }}>
                         <div className="chatbox-messages">
                             {prevPrompts.map((msg, index) => (
                                 <p key={index} className={msg.sender === 'user' ? 'user-message' : 'gemini-message'}>

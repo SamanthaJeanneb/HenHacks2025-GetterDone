@@ -37,6 +37,10 @@ public class Task {
         }
     }
 
+    public void setObjective(String objective) {
+        this.objective = objective;
+    }
+
     public String getObjective() {
         return objective;
     }
