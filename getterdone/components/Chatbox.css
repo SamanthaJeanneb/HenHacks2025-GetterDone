@@ -9,7 +9,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s ease;
-    transform: translateY(100%);
+    transform: translateY(70%); /* Adjust this value to stay up a little higher */
 }
 
 .chatbox.open {

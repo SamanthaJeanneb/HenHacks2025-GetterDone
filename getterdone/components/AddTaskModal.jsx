@@ -9,33 +9,17 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
   const [dueDate, setDueDate] = useState("");
   const { input, setInput, onSent, suggestedSubtasks } = useContext(Context);
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (taskDescription && category && priority && dueDate) {
       const priorityMap = { Low: 1, Medium: 2, High: 3 };
       const newTask = { description: taskDescription, category, priority: priorityMap[priority], date: dueDate };
-      console.log("Request payload:", newTask); // Debug log
-      try {
-        const response = await fetch("http://localhost:8080/tasks/createTask", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newTask),
-        });
-        if (response.ok) {
-          const savedTask = await response.json();
-          onSave(savedTask);
-          setTaskDescription("");
-          setCategory("");
-          setPriority("");
-          setDueDate("");
-          onClose();
-        } else {
-          console.error("Failed to save task");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
+      console.log("New task:", newTask); // Debug log
+      onSave(newTask);
+      setTaskDescription("");
+      setCategory("");
+      setPriority("");
+      setDueDate("");
+      onClose();
     }
   };
 

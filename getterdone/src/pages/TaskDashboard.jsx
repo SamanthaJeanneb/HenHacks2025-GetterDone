@@ -8,6 +8,7 @@ import NavigationBar from "../../components/NavigationBar";
 import CategorySidebar from "../../components/CategorySidebar";
 import { getAllTasks, createTask } from "../../lib/TaskUtils";
 import TaskPopup from '../../components/TaskPopup';
+import WorkNowModal from "../../components/WorkNowModal"; // Import WorkNowModal
 
 export default function TaskDashboardPage() {
   const [categories, setCategories] = useState(["Work", "Personal"]);
@@ -17,6 +18,7 @@ export default function TaskDashboardPage() {
   const [showCompletedTasks, setShowCompletedTasks] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [isTaskPopupOpen, setIsTaskPopupOpen] = useState(false);
+  const [isWorkNowModalOpen, setIsWorkNowModalOpen] = useState(false); // State for WorkNowModal
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -87,6 +89,9 @@ export default function TaskDashboardPage() {
           <button className="btn mb-3" style={{ backgroundColor: "#005c59", color: "white" }} onClick={() => setIsModalOpen(true)}>
             + Add New Task
           </button>
+          <button className="btn mb-3" style={{ backgroundColor: "#005c59", color: "white" }} onClick={() => setIsWorkNowModalOpen(true)}>
+            Work Now
+          </button>
           <Chatbox />
           {/* Toggle Completed Tasks */}
           <div className="form-check form-switch mb-3">
@@ -130,6 +135,9 @@ export default function TaskDashboardPage() {
 
       {/* Task Popup */}
       <TaskPopup task={selectedTask} isOpen={isTaskPopupOpen} onClose={() => setIsTaskPopupOpen(false)} />
+
+      {/* Work Now Modal */}
+      <WorkNowModal isOpen={isWorkNowModalOpen} onClose={() => setIsWorkNowModalOpen(false)} tasks={tasks} />
     </div>
   );
 }
