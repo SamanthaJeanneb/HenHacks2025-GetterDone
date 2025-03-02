@@ -20,6 +20,7 @@ public class TaskController {
 
 
 
+    //functionality for creating tasks
     @PostMapping("/createTask")
     public Task createTask(@RequestBody TaskDTO taskDTO) {
         // Convert TaskDTO to Task object
@@ -31,9 +32,25 @@ public class TaskController {
         return newTask;
     }
 
+    //functionality for removing tasks
+    @PostMapping("/deleteTask")
+    public String deleteTask(@RequestBody TaskDTO taskDTO) {
+        // Convert TaskDTO to Task object
+        String objectiveRef = taskDTO.getObjective();
+
+        for (Task task : taskList) {
+            if (task.getObjective().equals(objectiveRef)) {
+                taskList.remove(task);
+            }
+        }
+        return "done. " + objectiveRef + " task deleted";
+    }
 
 
 
+
+
+    //method to add a ton of subtasks to a task
     @PostMapping("/populateSubTasks")
     public List<SubTask> populateSubTasks(@RequestBody SubTaskDTO subtaskDTO) {
 
@@ -62,6 +79,36 @@ public class TaskController {
         }
         return taskList.get(taskRef).getSubTasks();
     }
+
+
+
+    //functionality for removing subtasks allocated to tasks in the subtask arraylist
+    @PostMapping("/deleteSubTask")
+    public String deleteSubTask(@RequestBody SubTaskDTO subtaskDTO) {
+
+        String mainObjective = subtaskDTO.getObjective();
+        String subObjective = subtaskDTO.getSubobjectives();
+        //^^^name of getter is MISLEADING. there is only supposed to be ONE subobjective
+        //passed as an argument here, where in populateSubTasks, it's several.
+        int counter = 0;
+        int taskRef = 0; //once again, default is 0.
+
+        for (Task task : taskList) {
+            if (task.getObjective().equals(mainObjective)) {
+                taskRef = counter;
+            }
+            else {
+                counter++;
+            }
+        }
+
+        taskList.get(taskRef).removeSubTask(subObjective);
+
+        return "done. " + subObjective + " subtask deleted";
+    }
+
+
+
 
     // Method to retrieve all subtasks of a particular task
     @GetMapping("/getAllSubTasks")
