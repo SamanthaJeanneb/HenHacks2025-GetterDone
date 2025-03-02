@@ -16,13 +16,12 @@ public class TaskController {
     @PostMapping("/createTask")
     public Task createTask(@RequestBody TaskDTO taskDTO) {
         // Convert TaskDTO to Task object
-        Task newTask = new Task(taskDTO.getPriority(), taskDTO.getDate(), taskDTO.getCategory());
+        Task newTask = new Task(taskDTO.getPriority(), taskDTO.getDate(), taskDTO.getCategory(), taskDTO.getDescription());
 
         // Optionally set completion status (false by default in constructor)
         taskList.add(newTask);
         return newTask;
     }
-
 
     // Method to retrieve all tasks
     @GetMapping("/getAllTasks")
