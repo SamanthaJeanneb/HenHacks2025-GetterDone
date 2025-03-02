@@ -3,6 +3,7 @@ import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logog from "../assets/logog.png";
+import profile from "../assets/profile.png"; // Import profile image
 
 export default function NavigationBar() {
   return (
@@ -24,6 +25,18 @@ export default function NavigationBar() {
           </Nav.Link>
           <Nav.Link as={Link} to="/calendar">
             Calendar
+          </Nav.Link>
+        </Nav>
+        <Nav>
+          <Nav.Link as={Link} to="/profile">
+            <img
+              src={profile}
+              height="50"
+              width="50"
+              className="d-inline-block align-top rounded-circle"
+              alt="Profile"
+              style={{ marginRight: "10px" }} // Add margin-right here
+            />
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
