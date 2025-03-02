@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function TaskCard({ task, toggleCompletion, onClick }) {
   const [subtasks, setSubtasks] = useState(() => {
-    const savedSubtasks = localStorage.getItem(`subtasks-${task.id}`);
+    const savedSubtasks = localStorage.getItem(`subtasks-${task.objective}`);
     return savedSubtasks ? JSON.parse(savedSubtasks) : [];
   });
   const [newSubtask, setNewSubtask] = useState("");
@@ -13,7 +13,7 @@ export default function TaskCard({ task, toggleCompletion, onClick }) {
     if (newSubtask.trim() !== "") {
       const updatedSubtasks = [...subtasks, { id: subtasks.length + 1, title: newSubtask, completed: false }];
       setSubtasks(updatedSubtasks);
-      localStorage.setItem(`subtasks-${task.id}`, JSON.stringify(updatedSubtasks));
+      localStorage.setItem(`subtasks-${task.objective}`, JSON.stringify(updatedSubtasks));
       setNewSubtask("");
     }
   };
@@ -23,13 +23,13 @@ export default function TaskCard({ task, toggleCompletion, onClick }) {
       subtask.id === id ? { ...subtask, completed: !subtask.completed } : subtask
     );
     setSubtasks(updatedSubtasks);
-    localStorage.setItem(`subtasks-${task.id}`, JSON.stringify(updatedSubtasks));
+    localStorage.setItem(`subtasks-${task.objective}`, JSON.stringify(updatedSubtasks));
   };
 
   const deleteSubtask = (id) => {
     const updatedSubtasks = subtasks.filter((subtask) => subtask.id !== id);
     setSubtasks(updatedSubtasks);
-    localStorage.setItem(`subtasks-${task.id}`, JSON.stringify(updatedSubtasks));
+    localStorage.setItem(`subtasks-${task.objective}`, JSON.stringify(updatedSubtasks));
   };
 
   const completedSubtasks = subtasks.filter((subtask) => subtask.completed).length;

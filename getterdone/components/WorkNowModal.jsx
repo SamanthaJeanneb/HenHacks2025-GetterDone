@@ -32,7 +32,7 @@ export default function WorkNowModal({ isOpen, onClose }) {
   }, [isOpen]);
 
   const handleSuggestTask = async () => {
-    const taskDescriptions = tasks.map(task => task.description).join(", ");
+    const taskDescriptions = tasks.map(task => task.objective).join(", ");
     await onSent(`Suggest a task to work on based on the following tasks: ${taskDescriptions}`);
   };
 
