@@ -26,6 +26,12 @@ export default function TaskCard({ task, toggleCompletion, onClick }) {
     localStorage.setItem(`subtasks-${task.id}`, JSON.stringify(updatedSubtasks));
   };
 
+  const deleteSubtask = (id) => {
+    const updatedSubtasks = subtasks.filter((subtask) => subtask.id !== id);
+    setSubtasks(updatedSubtasks);
+    localStorage.setItem(`subtasks-${task.id}`, JSON.stringify(updatedSubtasks));
+  };
+
   const completedSubtasks = subtasks.filter((subtask) => subtask.completed).length;
   const progressPercentage = subtasks.length > 0 ? (completedSubtasks / subtasks.length) * 100 : 0;
 
@@ -86,7 +92,12 @@ export default function TaskCard({ task, toggleCompletion, onClick }) {
             <ul className="list-group">
               {subtasks.map((subtask) => (
                 <li key={subtask.id} className="list-group-item d-flex justify-content-between align-items-center">
-                  <span className={subtask.completed ? "text-decoration-line-through" : ""}>{subtask.title}</span>
+                  <div className="d-flex align-items-center">
+                    <button className="btn btn-sm btn-outline-danger me-2" onClick={() => deleteSubtask(subtask.id)}>
+                      &times;
+                    </button>
+                    <span className={subtask.completed ? "text-decoration-line-through" : ""}>{subtask.title}</span>
+                  </div>
                   <input
                     type="checkbox"
                     checked={subtask.completed}
