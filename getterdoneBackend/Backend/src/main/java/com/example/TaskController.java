@@ -25,7 +25,7 @@ public class TaskController {
 
 
     // Method to retrieve all tasks
-    @GetMapping("/")
+    @GetMapping("/getAllTasks")
     public List<Task> getAllTasks() {
         return taskList;
     }
