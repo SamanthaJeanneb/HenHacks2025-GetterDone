@@ -2,24 +2,31 @@ import { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 
 export default function TimerModal({ isOpen, onClose, duration }) {
-  const [timeLeft, setTimeLeft] = useState(duration * 60); // Convert minutes to seconds
+  const [timeLeft, setTimeLeft] = useState(duration > 0 ? duration * 60 : 0); // Ensure it's not 0 on load
+  const [isActive, setIsActive] = useState(false); // Track whether the timer has started
 
   useEffect(() => {
-    setTimeLeft(duration * 60); // Reset timer when modal opens
-  }, [duration]);
+    if (isOpen) {
+      setTimeLeft(duration * 60); // Reset timer when modal opens
+      setIsActive(true); // Timer is now active
+    }
+  }, [isOpen, duration]);
 
   useEffect(() => {
-    if (timeLeft <= 0) {
+    if (timeLeft <= 0 && isActive) {
       alert("Time's up! Please check off the completed subtasks.");
+      setIsActive(false); // Prevent re-triggering the alert
       return;
     }
 
-    const timerId = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
-    }, 1000);
+    if (timeLeft > 0) {
+      const timerId = setInterval(() => {
+        setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
+      }, 1000);
 
-    return () => clearInterval(timerId);
-  }, [timeLeft]);
+      return () => clearInterval(timerId);
+    }
+  }, [timeLeft, isActive]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
