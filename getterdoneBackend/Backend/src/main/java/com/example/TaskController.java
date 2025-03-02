@@ -23,7 +23,8 @@ public class TaskController {
         return newTask;
     }
 
-    // Optional: Method to retrieve all tasks
+
+    // Method to retrieve all tasks
     @GetMapping("/")
     public List<Task> getAllTasks() {
         return taskList;
