@@ -1,5 +1,7 @@
 package com.example;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,34 +11,29 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
 
-
-
-
-
     // Temporary in-memory storage for tasks (you can switch to DB if needed)
     private List<Task> taskList = new ArrayList<>();
 
-
-
-
-
     @PostMapping("/createTask")
-    public Task createTask(@RequestBody TaskDTO taskDTO) {
+    public ResponseEntity<?> createTask(@RequestBody TaskDTO taskDTO) {
+        // Check if a task with the same description already exists
+        for (Task task : taskList) {
+            if (task.getObjective().equals(taskDTO.getObjective())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Task with the same description already exists");
+            }
+        }
+
         // Convert TaskDTO to Task object
         Task newTask = new Task(taskDTO.getPriority(), taskDTO.getDate(), taskDTO.getCategory(), taskDTO.getObjective());
 
         // Optionally set completion status (false by default in constructor)
         taskList.add(newTask);
-        System.out.println("Task added");
-        return newTask;
+        System.out.println("Task added: " + newTask.getObjective());
+        return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
     }
-
-
-
 
     @PostMapping("/populateSubTasks")
     public List<SubTask> populateSubTasks(@RequestBody SubTaskDTO subtaskDTO) {
-
         String allSubObjectives = subtaskDTO.getSubobjectives();
         String[] arr = allSubObjectives.split(";");
 
@@ -44,15 +41,13 @@ public class TaskController {
 
         int counter = 0;
         int taskRef = 0;
-        //by default, if the task is not found, then the subtasks get stored
-        //in the task at the start of the list.
+        // by default, if the task is not found, then the subtasks get stored
+        // in the task at the start of the list.
 
         for (Task task : taskList) {
-
             if (task.getObjective().equals(mainObjective)) {
                 taskRef = counter;
-            }
-            else {
+            } else {
                 counter++;
             }
         }
@@ -66,17 +61,14 @@ public class TaskController {
     // Method to retrieve all subtasks of a particular task
     @GetMapping("/getAllSubTasks")
     public List<SubTask> getAllSubTasks(@RequestBody TaskDTO taskDTO) {
-
         int counter = 0;
-        int taskRef = 0; //once again. returns what's in task 0 if no match.
+        int taskRef = 0; // once again. returns what's in task 0 if no match.
         String mainObjective = taskDTO.getObjective();
 
         for (Task task : taskList) {
-
             if (task.getObjective().equals(mainObjective)) {
                 taskRef = counter;
-            }
-            else {
+            } else {
                 counter++;
             }
         }
