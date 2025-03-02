@@ -14,15 +14,29 @@ export default function CategorySidebar({ categories, addCategory, selectCategor
     }
   };
 
+  const handleSelectCategory = (category) => {
+    if (category === "All") {
+      selectCategory(null); // Show all categories
+    } else {
+      selectCategory(category);
+    }
+  };
+
   return (
     <aside className="col-3 p-4 border-end bg-light shadow-sm">
       <h2 className="h5 fw-bold">Categories</h2>
       <ul className="list-group mb-3">
+        <li
+          className={`list-group-item ${selectedCategory === null ? "active" : ""}`}
+          onClick={() => handleSelectCategory("All")}
+        >
+          All
+        </li>
         {categories.map((category, index) => (
           <li
             key={index}
             className={`list-group-item ${category === selectedCategory ? "active" : ""}`}
-            onClick={() => selectCategory(category)}
+            onClick={() => handleSelectCategory(category)}
           >
             {category}
           </li>

@@ -4,7 +4,7 @@ import './Chatbox.css'; // Optional: for styling
 
 const Chatbox = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { prevPrompts, setPrevPrompts, onSent, input, setInput, resultData, loading } = useContext(Context);
+    const { prevPrompts, setPrevPrompts, onSent, input, setInput, resultData, setResultData, loading } = useContext(Context);
     const [responseAdded, setResponseAdded] = useState(false);
 
     const toggleChatbox = () => {
@@ -27,6 +27,8 @@ const Chatbox = () => {
         if (resultData && !responseAdded) {
             setPrevPrompts((prev) => [...prev, { sender: 'gemini', text: resultData }]);
             setResponseAdded(true); // Set the flag to true after adding the response
+            setResultData(''); // Clear the resultData after processing
+            
         }
     }, [resultData, responseAdded, setPrevPrompts]);
 
