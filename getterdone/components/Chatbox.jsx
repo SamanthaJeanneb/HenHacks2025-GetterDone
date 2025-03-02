@@ -1,25 +1,47 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Context } from '../src/context/Context';
 import './Chatbox.css'; // Optional: for styling
+import { getAllTasks } from '../lib/TaskUtils'; // Assuming you have a function to fetch tasks
 
 const Chatbox = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { prevPrompts, setPrevPrompts, onSent, input, setInput, resultData, setResultData, loading } = useContext(Context);
     const [responseAdded, setResponseAdded] = useState(false);
+    const [tasks, setTasks] = useState([]);
+    const [selectedTask, setSelectedTask] = useState('');
+
+    useEffect(() => {
+        async function fetchTasks() {
+            try {
+                const fetchedTasks = await getAllTasks();
+                setTasks([
+                    ...fetchedTasks,
+                    {
+                        id: "manual-task",
+                        description: "Manual Task for Testing",
+                    },
+                ]);
+            } catch (error) {
+                console.error("Error fetching tasks:", error);
+            }
+        }
+
+        fetchTasks();
+    }, []);
 
     const toggleChatbox = () => {
         setIsOpen(!isOpen);
     };
 
     const handleSend = async () => {
-        if (input.trim()) {
+        if (input.trim() && selectedTask) {
             const newMessages = [...prevPrompts, { sender: 'user', text: input }];
             setPrevPrompts(newMessages);
             setInput('');
             setResponseAdded(false); // Reset the flag
 
             // Call onSent to get Gemini's response
-            await onSent(input);
+            await onSent(`Task: ${selectedTask}\nQuestion: ${input}`);
         }
     };
 
@@ -28,7 +50,6 @@ const Chatbox = () => {
             setPrevPrompts((prev) => [...prev, { sender: 'gemini', text: resultData }]);
             setResponseAdded(true); // Set the flag to true after adding the response
             setResultData(''); // Clear the resultData after processing
-            
         }
     }, [resultData, responseAdded, setPrevPrompts]);
 
@@ -47,11 +68,20 @@ const Chatbox = () => {
                         ))}
                         {loading && <p className="loading-message">Gemini is typing...</p>}
                     </div>
+                    <select value={selectedTask} onChange={(e) => setSelectedTask(e.target.value)}>
+                        <option value="">Select a task</option>
+                        {tasks.map((task) => (
+                            <option key={task.id} value={task.description}>
+                                {task.description}
+                            </option>
+                        ))}
+                    </select>
                     <input
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="Type your message here..."
+                        style={{ backgroundColor: 'white', color: 'black' }} // Make text input white
                     />
                     <button onClick={handleSend}>Send</button>
                 </div>

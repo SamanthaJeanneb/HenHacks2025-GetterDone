@@ -7,12 +7,16 @@ import AddTaskModal from "../../components/AddTaskModal";
 import NavigationBar from "../../components/NavigationBar";
 import CategorySidebar from "../../components/CategorySidebar";
 import { getAllTasks, createTask } from "../../lib/TaskUtils";
+import TaskPopup from '../../components/TaskPopup';
 
 export default function TaskDashboardPage() {
   const [categories, setCategories] = useState(["Work", "Personal"]);
   const [tasks, setTasks] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showCompletedTasks, setShowCompletedTasks] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [isTaskPopupOpen, setIsTaskPopupOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,6 +59,11 @@ export default function TaskDashboardPage() {
     setSelectedCategory(category);
   };
 
+  const handleTaskClick = (task) => {
+    setSelectedTask(task);
+    setIsTaskPopupOpen(true);
+  };
+
   const filteredTasks = selectedCategory
     ? tasks.filter((task) => task.category === selectedCategory)
     : tasks;
@@ -79,30 +88,48 @@ export default function TaskDashboardPage() {
             + Add New Task
           </button>
           <Chatbox />
+          {/* Toggle Completed Tasks */}
+          <div className="form-check form-switch mb-3">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="toggleCompletedTasks"
+              checked={showCompletedTasks}
+              onChange={() => setShowCompletedTasks(!showCompletedTasks)}
+            />
+            <label className="form-check-label" htmlFor="toggleCompletedTasks">
+              {showCompletedTasks ? "Hide Completed Tasks" : "Show Completed Tasks"}
+            </label>
+          </div>
           {/* Current Tasks */}
           <section>
             <h2 className="h5 fw-bold">Current Tasks</h2>
             <div className="row">
               {filteredTasks.filter((task) => !task.completed).map((task) => (
-                <TaskCard key={task.id} task={task} toggleCompletion={toggleTaskCompletion} />
+                <TaskCard key={task.id} task={task} toggleCompletion={toggleTaskCompletion} onClick={() => handleTaskClick(task)} />
               ))}
             </div>
           </section>
 
           {/* Completed Tasks */}
-          <section className="mt-4">
-            <h2 className="h5 fw-bold">Completed Tasks</h2>
-            <div className="row">
-              {filteredTasks.filter((task) => task.completed).map((task) => (
-                <TaskCard key={task.id} task={task} toggleCompletion={toggleTaskCompletion} />
-              ))}
-            </div>
-          </section>
+          {showCompletedTasks && (
+            <section className="mt-4">
+              <h2 className="h5 fw-bold">Completed Tasks</h2>
+              <div className="row">
+                {filteredTasks.filter((task) => task.completed).map((task) => (
+                  <TaskCard key={task.id} task={task} toggleCompletion={toggleTaskCompletion} onClick={() => handleTaskClick(task)} />
+                ))}
+              </div>
+            </section>
+          )}
         </main>
       </div>
 
       {/* Add Task Modal */}
       <AddTaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSave={addTask} />
+
+      {/* Task Popup */}
+      <TaskPopup task={selectedTask} isOpen={isTaskPopupOpen} onClose={() => setIsTaskPopupOpen(false)} />
     </div>
   );
 }

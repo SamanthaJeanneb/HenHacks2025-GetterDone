@@ -13,7 +13,7 @@ const ContextProvider = (props) => {
 
     const onSent = async (prompt) => {
         setLoading(true);
-        const response = await runChat(prompt + "Respond with 3 answers 6 words or less seperated by a ;");
+        const response = await runChat(prompt + "respond in one sentence");
         setResultData(response);
         console.log(prevPrompts)
         setLoading(false);

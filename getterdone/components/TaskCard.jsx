@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function TaskCard({ task, toggleCompletion }) {
+export default function TaskCard({ task, toggleCompletion, onClick }) {
   const [subtasks, setSubtasks] = useState(() => {
     const savedSubtasks = localStorage.getItem(`subtasks-${task.id}`);
     return savedSubtasks ? JSON.parse(savedSubtasks) : [];
@@ -31,16 +31,32 @@ export default function TaskCard({ task, toggleCompletion }) {
 
   return (
     <div className="col-md-6">
-      <div className={`card p-3 mb-3 ${task.completed ? "bg-light text-dark" : "bg-white text-dark"} shadow-sm`}>
+      <div
+        className={`card p-3 mb-3 ${task.completed ? "bg-light text-dark" : "bg-white text-dark"} shadow-sm`}
+        onClick={onClick}
+      >
         <div className="d-flex justify-content-between align-items-center">
           <span className={`h6 ${task.completed ? "text-decoration-line-through" : ""}`}>
             {task.title}
           </span>
           <div className="d-flex gap-2">
-            <button className="btn btn-sm" style={{ backgroundColor: "#005c59", color: "white" }} onClick={() => toggleCompletion(task.id)}>
+            <button
+              className="btn btn-sm"
+              style={{ backgroundColor: "#005c59", color: "white" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleCompletion(task.id);
+              }}
+            >
               {task.completed ? "Undo" : "Complete"}
             </button>
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+            <button
+              className="btn btn-sm btn-outline-secondary"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDropdownOpen(!isDropdownOpen);
+              }}
+            >
               {isDropdownOpen ? "▲" : "▼"}
             </button>
           </div>
