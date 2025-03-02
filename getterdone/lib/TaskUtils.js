@@ -17,6 +17,23 @@ export async function createTask(task) {
   return response.json();
 }
 
+// Function to change a task
+export async function changeTask(task) {
+  const response = await fetch(`${BASE_URL}/changeTask`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to change task");
+  }
+
+  return response.json();
+}
+
 // Function to delete a task
 export async function deleteTask(task) {
   const response = await fetch(`${BASE_URL}/deleteTask`, {
@@ -51,6 +68,23 @@ export async function populateSubTasks(subtaskDTO) {
   return response.json();
 }
 
+// Function to change a subtask
+export async function changeSubTask(subtaskDTO) {
+  const response = await fetch(`${BASE_URL}/changeSubTask`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(subtaskDTO),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to change subtask");
+  }
+
+  return response.json();
+}
+
 // Function to delete a subtask
 export async function deleteSubTask(subtaskDTO) {
   const response = await fetch(`${BASE_URL}/deleteSubTask`, {
@@ -63,6 +97,23 @@ export async function deleteSubTask(subtaskDTO) {
 
   if (!response.ok) {
     throw new Error("Failed to delete subtask");
+  }
+
+  return response.json();
+}
+
+// Function to get a subtask
+export async function getSubTask(taskDTO) {
+  const response = await fetch(`${BASE_URL}/getSubTask`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(taskDTO),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch subtask");
   }
 
   return response.json();
