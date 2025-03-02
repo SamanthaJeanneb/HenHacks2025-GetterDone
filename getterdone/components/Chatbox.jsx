@@ -55,35 +55,39 @@ const Chatbox = () => {
 
     return (
         <div className={`chatbox ${isOpen ? 'open' : ''}`}>
-            <button className="chatbox-toggle" onClick={toggleChatbox}>
+            <button className="chatbox-toggle" onClick={toggleChatbox} style={{ backgroundColor: '#005c59', color: 'white' }}>
                 {isOpen ? 'Close' : 'Chat'}
             </button>
             {isOpen && (
                 <div className="chatbox-content">
-                    <div className="chatbox-messages">
-                        {prevPrompts.map((msg, index) => (
-                            <p key={index} className={msg.sender === 'user' ? 'user-message' : 'gemini-message'}>
-                                {msg.text}
-                            </p>
-                        ))}
-                        {loading && <p className="loading-message">Gemini is typing...</p>}
+                    <div className="chatbox-header" style={{ backgroundColor: '#005c59', color: 'white' }}>
+                        <div className="chatbox-messages">
+                            {prevPrompts.map((msg, index) => (
+                                <p key={index} className={msg.sender === 'user' ? 'user-message' : 'gemini-message'}>
+                                    {msg.text}
+                                </p>
+                            ))}
+                            {loading && <p className="loading-message">Gemini is typing...</p>}
+                        </div>
                     </div>
-                    <select value={selectedTask} onChange={(e) => setSelectedTask(e.target.value)}>
-                        <option value="">Select a task</option>
-                        {tasks.map((task) => (
-                            <option key={task.id} value={task.description}>
-                                {task.description}
-                            </option>
-                        ))}
-                    </select>
-                    <input
-                        type="text"
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder="Type your message here..."
-                        style={{ backgroundColor: 'white', color: 'black' }} // Make text input white
-                    />
-                    <button onClick={handleSend}>Send</button>
+                    <div className="chatbox-footer" style={{ backgroundColor: 'white', color: 'black' }}>
+                        <select value={selectedTask} onChange={(e) => setSelectedTask(e.target.value)} style={{ backgroundColor: 'white', color: 'black' }}>
+                            <option value="">Select a task</option>
+                            {tasks.map((task) => (
+                                <option key={task.id} value={task.description}>
+                                    {task.description}
+                                </option>
+                            ))}
+                        </select>
+                        <input
+                            type="text"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder="Type your message here..."
+                            style={{ backgroundColor: 'white', color: 'black' }} // Make text input white
+                        />
+                        <button onClick={handleSend} style={{ backgroundColor: '#005c59', color: 'white' }}>Send</button>
+                    </div>
                 </div>
             )}
         </div>

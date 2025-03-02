@@ -191,3 +191,11 @@ getterdoneBackend/.idea/vcs.xml
 HenHacks2025StartNow.iml
 src/Main.java
 .idea/libraries/Maven__com_h2database_h2_2_3_232.xml
+getterdoneBackend/demo/target/test-classes/com/example/demo/DemoApplicationTests.class
+getterdoneBackend/demo/target/classes/com/example/TaskDTO.class
+getterdoneBackend/demo/target/classes/com/example/Task.class
+getterdoneBackend/demo/target/classes/com/example/DemoApplication.class
+getterdoneBackend/demo/target/classes/com/example/CorsConfig.class
+getterdoneBackend/demo/target/classes/com/example/CorsConfig$1.class
+getterdoneBackend/demo/target/classes/application.properties
+getterdoneBackend/demo/demo.iml

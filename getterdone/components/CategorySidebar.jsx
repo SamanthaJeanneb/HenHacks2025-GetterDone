@@ -28,6 +28,7 @@ export default function CategorySidebar({ categories, addCategory, selectCategor
       <ul className="list-group mb-3">
         <li
           className={`list-group-item ${selectedCategory === null ? "active" : ""}`}
+          style={{ backgroundColor: selectedCategory === null ? "#005c59" : "", color: selectedCategory === null ? "white" : "" }}
           onClick={() => handleSelectCategory("All")}
         >
           All
@@ -36,6 +37,7 @@ export default function CategorySidebar({ categories, addCategory, selectCategor
           <li
             key={index}
             className={`list-group-item ${category === selectedCategory ? "active" : ""}`}
+            style={{ backgroundColor: category === selectedCategory ? "#005c59" : "", color: category === selectedCategory ? "white" : "" }}
             onClick={() => handleSelectCategory(category)}
           >
             {category}
