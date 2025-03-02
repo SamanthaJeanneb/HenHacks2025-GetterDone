@@ -10,6 +10,7 @@
     overflow: hidden;
     transition: transform 0.3s ease;
     transform: translateY(100%);
+    z-index: 100;
 }
 
 .chatbox.open {
@@ -54,10 +55,10 @@
 
 .user-message {
     text-align: right;
-    color: blue;
+    color: #005c59;
 }
 
 .gemini-message {
     text-align: left;
-    color: green;
+    color: #005c59;
 }

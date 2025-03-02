@@ -8,6 +8,7 @@ import NavigationBar from "../../components/NavigationBar";
 import CategorySidebar from "../../components/CategorySidebar";
 import { getAllTasks, createTask } from "../../lib/TaskUtils";
 import TaskPopup from '../../components/TaskPopup';
+import HelpMessage from '../../components/HelpMessage'; // Import HelpMessage
 
 export default function TaskDashboardPage() {
   const [categories, setCategories] = useState(["Work", "Personal"]);
@@ -130,6 +131,9 @@ export default function TaskDashboardPage() {
 
       {/* Task Popup */}
       <TaskPopup task={selectedTask} isOpen={isTaskPopupOpen} onClose={() => setIsTaskPopupOpen(false)} />
+
+      {/* Help Message */}
+      <HelpMessage />
     </div>
   );
 }
