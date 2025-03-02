@@ -1,26 +1,28 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Chatbox from '../../components/Chatbox';
 import TaskCard from "../../components/TaskCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddTaskModal from "../../components/AddTaskModal";
 import NavigationBar from "../../components/NavigationBar";
+import CategorySidebar from "../../components/CategorySidebar";
 
 export default function TaskDashboardPage() {
   const [categories, setCategories] = useState(["Work", "Personal"]);
-  const [newCategory, setNewCategory] = useState("");
-  const [tasks, setTasks] = useState([
-    { id: 1, title: "Complete UI design", completed: false },
-    { id: 2, title: "Fix API bug", completed: true },
-  ]);
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    return savedTasks;
+  });
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const addCategory = () => {
-    if (newCategory.trim() !== "") {
-      setCategories([...categories, newCategory]);
-      setNewCategory("");
-    }
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  const addCategory = (newCategory) => {
+    setCategories((prevCategories) => [...prevCategories, newCategory]);
   };
 
   const toggleTaskCompletion = (id) => {
@@ -32,42 +34,36 @@ export default function TaskDashboardPage() {
   };
 
   const addTask = (newTask) => {
-    setTasks([...tasks, { id: tasks.length + 1, title: newTask.taskDescription, completed: false }]);
+    const updatedTasks = [...tasks, { id: tasks.length + 1, title: newTask.taskDescription, completed: false, category: newTask.category, dueDate: newTask.dueDate }];
+    setTasks(updatedTasks);
     setIsModalOpen(false);
     navigate("/tasks");
   };
 
+  const selectCategory = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const filteredTasks = selectedCategory
+    ? tasks.filter((task) => task.category === selectedCategory)
+    : tasks;
+
   return (
-    <div className="d-flex vh-100 vw-100 flex-column">
+    <div className="d-flex vh-100 vw-100 flex-column bg-light">
       <NavigationBar />
       
       <div className="d-flex flex-grow-1">
-        {/* Sidebar */}
-        <aside className="col-3 p-4 border-end bg-light">
-          <h2 className="h5 fw-bold">Categories</h2>
-          <ul className="list-group mb-3">
-            {categories.map((category, index) => (
-              <li key={index} className="list-group-item">
-                {category}
-              </li>
-            ))}
-          </ul>
-          <div className="d-flex">
-            <input
-              type="text"
-              className="form-control me-2"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
-              placeholder="New category"
-            />
-            <button className="btn btn-primary" onClick={addCategory}>+
-            </button>
-          </div>
-        </aside>
+        <CategorySidebar
+          categories={categories}
+          addCategory={addCategory}
+          selectCategory={selectCategory}
+          selectedCategory={selectedCategory}
+        />
 
         {/* Main Content */}
-        <main className="col p-4">
+        <main className="col p-4 bg-white shadow-sm">
           <h1 className="h3 fw-bold">Task Dashboard</h1>
+          {selectedCategory && <h2 className="h5 fw-bold">Category: {selectedCategory}</h2>}
           <button className="btn btn-success mb-3" onClick={() => setIsModalOpen(true)}>
             + Add New Task
           </button>
@@ -76,7 +72,7 @@ export default function TaskDashboardPage() {
           <section>
             <h2 className="h5 fw-bold">Current Tasks</h2>
             <div className="row">
-              {tasks.filter((task) => !task.completed).map((task) => (
+              {filteredTasks.filter((task) => !task.completed).map((task) => (
                 <TaskCard key={task.id} task={task} toggleCompletion={toggleTaskCompletion} />
               ))}
             </div>
@@ -86,7 +82,7 @@ export default function TaskDashboardPage() {
           <section className="mt-4">
             <h2 className="h5 fw-bold">Completed Tasks</h2>
             <div className="row">
-              {tasks.filter((task) => task.completed).map((task) => (
+              {filteredTasks.filter((task) => task.completed).map((task) => (
                 <TaskCard key={task.id} task={task} toggleCompletion={toggleTaskCompletion} />
               ))}
             </div>
