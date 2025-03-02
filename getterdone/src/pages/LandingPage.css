@@ -1,0 +1,73 @@
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; 
+    min-width: 100vw; 
+    text-align: center;
+    background-color: #005c59; /* Change background color to match the button */
+}
+
+.landing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.landing-card {
+    background-color: white;
+    padding: 40px 20px; /* Increase padding for top and bottom */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+.landing-card-top {
+    margin-bottom: 20px;
+    padding: 40px 0; /* Add padding to the top and bottom */
+}
+
+.landing-card-middle {
+    margin-bottom: 20px;
+    padding: 10px 0; /* Add padding to the top and bottom */
+}
+
+.landing-card-bottom {
+    margin-bottom: 20px;
+    padding: 10px 60px; /* Add padding to the top, bottom, and sides */
+}
+
+.landing-logo {
+    width: 50%;
+    max-width: 300px;
+    filter: invert(100%) sepia(0%) saturate(1000%) hue-rotate(120deg) brightness(100%) contrast(90%); 
+}
+
+.landing-button {
+    background-color: #005c59;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.landing-button:hover {
+    background-color: #004d47;
+}
+
+.landing-page h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.landing-page p {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}

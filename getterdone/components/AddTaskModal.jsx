@@ -40,7 +40,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
   };
 
   const handleSuggestSubtasks = () => {
-    onSent(taskDescription + "actually, dont answer in 1 sentence. instead answer three responses of 6 words or less seperated by a ; that explain the steps I would need to take to complete this task.", true);
+    onSent(taskDescription + "actually, dont answer in 1 sentence. instead answer three responses of 10 words or less seperated by a ; that explain the steps I would need to take to complete this task.", true);
   };
 
   return (
@@ -90,7 +90,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
                   onChange={(e) => setDueDate(e.target.value)}
                 />
               </div>
-              <button onClick={handleSuggestSubtasks}>Suggest Subtasks</button>
+              <button onClick={handleSuggestSubtasks}>Suggest Steps</button>
               {suggestedSubtasks.length > 0 && (
                 <div>
                   {suggestedSubtasks.map((subtask, index) => (

@@ -8,7 +8,7 @@ import profile from "../assets/profile.png"; // Import profile image
 export default function NavigationBar() {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" style={{ backgroundColor: "#005c59" }}>
-      <Navbar.Brand as={Link} to="/">
+      <Navbar.Brand as={Link} to="/landing">
         <img
           src={logog}
           height="25"
@@ -31,8 +31,8 @@ export default function NavigationBar() {
           <Nav.Link as={Link} to="/profile">
             <img
               src={profile}
-              height="50"
-              width="50"
+              height="40"
+              width="40"
               className="d-inline-block align-top rounded-circle"
               alt="Profile"
               style={{ marginRight: "10px" }} // Add margin-right here
