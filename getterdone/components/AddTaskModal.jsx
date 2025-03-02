@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Context } from '../src/context/Context';
 
-export default function AddTaskModal({ isOpen, onClose, onSave }) {
+export default function AddTaskModal({ isOpen, onClose }) {
   const [taskDescription, setTaskDescription] = useState("");
   const [category, setCategory] = useState("");
   const [priority, setPriority] = useState("");
@@ -12,8 +12,9 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
   const handleSave = async () => {
     if (taskDescription && category && priority && dueDate) {
       const priorityMap = { Low: 1, Medium: 2, High: 3 };
-      const newTask = { description: taskDescription, category, priority: priorityMap[priority], date: dueDate };
-      console.log("Request payload:", newTask); // Debug log
+      const newTask = { objective: taskDescription, category, priority: priorityMap[priority], date: dueDate };
+      console.log("New task:", newTask); // Debug log
+
       try {
         const response = await fetch("http://localhost:8080/tasks/createTask", {
           method: "POST",
@@ -22,20 +23,22 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
           },
           body: JSON.stringify(newTask),
         });
+
         if (response.ok) {
-          const savedTask = await response.json();
-          onSave(savedTask);
-          setTaskDescription("");
-          setCategory("");
-          setPriority("");
-          setDueDate("");
-          onClose();
+          console.log("Task added successfully");
+          // Optionally, you can handle the response here
         } else {
-          console.error("Failed to save task");
+          console.error("Failed to add task");
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error adding task:", error);
       }
+
+      setTaskDescription("");
+      setCategory("");
+      setPriority("");
+      setDueDate("");
+      onClose();
     }
   };
 

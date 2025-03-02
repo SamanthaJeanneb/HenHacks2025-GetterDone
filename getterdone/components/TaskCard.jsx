@@ -35,15 +35,25 @@ export default function TaskCard({ task, toggleCompletion, onClick }) {
   const completedSubtasks = subtasks.filter((subtask) => subtask.completed).length;
   const progressPercentage = subtasks.length > 0 ? (completedSubtasks / subtasks.length) * 100 : 0;
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className="col-md-6">
       <div
         className={`card p-3 mb-3 ${task.completed ? "bg-light text-dark" : "bg-white text-dark"} shadow-sm`}
-        onClick={onClick}
       >
         <div className="d-flex justify-content-between align-items-center">
-          <span className={`h6 ${task.completed ? "text-decoration-line-through" : ""}`}>
-            {task.title}
+          <span
+            className={`h6 ${task.completed ? "text-decoration-line-through" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick(task);
+            }}
+          >
+            {task.objective}
           </span>
           <div className="d-flex gap-2">
             <button
@@ -68,7 +78,7 @@ export default function TaskCard({ task, toggleCompletion, onClick }) {
           </div>
         </div>
         <div className="mt-2">
-          <small>Due by: {task.dueDate}</small>
+          <small>Due by: {formatDate(task.date)}</small>
         </div>
         <div className="mt-2">
           <small>Progress: {Math.round(progressPercentage)}%</small>

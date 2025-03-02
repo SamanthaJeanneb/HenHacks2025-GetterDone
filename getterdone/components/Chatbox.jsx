@@ -14,13 +14,7 @@ const Chatbox = () => {
         async function fetchTasks() {
             try {
                 const fetchedTasks = await getAllTasks();
-                setTasks([
-                    ...fetchedTasks,
-                    {
-                        id: "manual-task",
-                        description: "Manual Task for Testing",
-                    },
-                ]);
+                setTasks(fetchedTasks);
             } catch (error) {
                 console.error("Error fetching tasks:", error);
             }
@@ -74,8 +68,8 @@ const Chatbox = () => {
                         <select value={selectedTask} onChange={(e) => setSelectedTask(e.target.value)} style={{ backgroundColor: 'white', color: 'black' }}>
                             <option value="">Select a task</option>
                             {tasks.map((task) => (
-                                <option key={task.id} value={task.description}>
-                                    {task.description}
+                                <option key={task.id} value={task.objective}>
+                                    {task.objective}
                                 </option>
                             ))}
                         </select>

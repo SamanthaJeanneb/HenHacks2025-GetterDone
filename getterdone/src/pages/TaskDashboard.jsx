@@ -9,6 +9,7 @@ import CategorySidebar from "../../components/CategorySidebar";
 import { getAllTasks, createTask } from "../../lib/TaskUtils";
 import TaskPopup from '../../components/TaskPopup';
 import HelpMessage from '../../components/HelpMessage'; // Import HelpMessage
+import WorkNowModal from "../../components/WorkNowModal"; // Import WorkNowModal
 
 export default function TaskDashboardPage() {
   const [categories, setCategories] = useState(["Work", "Personal"]);
@@ -18,6 +19,7 @@ export default function TaskDashboardPage() {
   const [showCompletedTasks, setShowCompletedTasks] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [isTaskPopupOpen, setIsTaskPopupOpen] = useState(false);
+  const [isWorkNowModalOpen, setIsWorkNowModalOpen] = useState(false); // State for WorkNowModal
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -85,9 +87,17 @@ export default function TaskDashboardPage() {
         <main className="col p-4 bg-white shadow-sm">
           <h1 className="h3 fw-bold">Task Dashboard</h1>
           {selectedCategory && <h2 className="h5 fw-bold">Category: {selectedCategory}</h2>}
-          <button className="btn mb-3" style={{ backgroundColor: "#005c59", color: "white" }} onClick={() => setIsModalOpen(true)}>
-            + Add New Task
-          </button>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <button className="btn" style={{ backgroundColor: "#005c59", color: "white" }} onClick={() => setIsModalOpen(true)}>
+              + Add New Task
+            </button>
+            <div className="d-flex align-items-center ms-auto">
+              <span className="me-2">Have some time to work?</span>
+              <button className="btn" style={{ backgroundColor: "#005c59", color: "white" }} onClick={() => setIsWorkNowModalOpen(true)}>
+                Work Now
+              </button>
+            </div>
+          </div>
           <Chatbox />
           {/* Toggle Completed Tasks */}
           <div className="form-check form-switch mb-3">
@@ -134,6 +144,9 @@ export default function TaskDashboardPage() {
 
       {/* Help Message */}
       <HelpMessage />
+
+      {/* Work Now Modal */}
+      <WorkNowModal isOpen={isWorkNowModalOpen} onClose={() => setIsWorkNowModalOpen(false)} tasks={tasks} />
     </div>
   );
 }
