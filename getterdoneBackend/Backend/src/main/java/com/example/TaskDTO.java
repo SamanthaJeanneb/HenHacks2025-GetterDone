@@ -4,12 +4,22 @@ import java.util.Date;
 
 public class TaskDTO {
 
+    private String objective;
     private int priority;
     private Date date;
     private String category;
-    private String description; // Add description field
 
     // Getters and setters
+
+
+    public void setObjective(String objective) {
+        this.objective = objective;
+    }
+
+    public String getObjective() {
+        return objective;
+    }
+
     public int getPriority() {
         return priority;
     }
@@ -32,13 +42,5 @@ public class TaskDTO {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

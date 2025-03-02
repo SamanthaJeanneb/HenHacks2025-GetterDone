@@ -1,30 +1,48 @@
 package com.example;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Task {
 
+    private String objective;
     private int priority;
     private Date date;
-    private String category;
-    private String description;
-    private boolean completed;
+    private String Category;
+    private boolean isComplete;
+    private ArrayList<SubTask> subTasks = new ArrayList<SubTask>();
+    private int percentDone = 0;
 
 
-    public Task(int priority, Date date, String category, String description) {
-        this.priority = priority;
-        this.date = date;
-        this.category = category;
-        this.description = description;
-        this.completed = false;
+
+    Task(int p, Date d, String c, String object) {
+        priority = p;
+        date = d;
+        Category = c;
+        objective = object;
+        isComplete = false;
+
     }
 
 
-    public boolean isCompleted() {
-        return completed;
+    public String getObjective() {
+        return objective;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void populateSubTasks(String subObjective) {
+        subTasks.add(new SubTask(objective, subObjective));
+    }
+
+    public ArrayList<SubTask> getSubTasks() {
+        return subTasks;
+    }
+
+    public boolean checkCompleted() {
+        return isComplete;
+    }
+
+    public void complete() {
+
+        isComplete = true;
     }
 
     public void setPriority(int priority) {
@@ -36,11 +54,13 @@ public class Task {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        Category = category;
     }
 
+
+
     public String getCategory() {
-        return category;
+        return Category;
     }
 
     public int getPriority() {
@@ -49,13 +69,5 @@ public class Task {
 
     public Date getDate() {
         return date;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }
