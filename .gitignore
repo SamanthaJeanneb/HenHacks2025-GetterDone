@@ -190,3 +190,4 @@ getterdoneBackend/.idea/vcs.xml
 .idea/workspace.xml
 HenHacks2025StartNow.iml
 src/Main.java
+.idea/libraries/Maven__com_h2database_h2_2_3_232.xml
