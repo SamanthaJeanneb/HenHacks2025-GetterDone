@@ -33,6 +33,8 @@ public class TaskController {
     }
 
 
+
+
     @PostMapping("/changeTask")
     public void changeTask(@RequestBody TaskDTO taskDTO) {
 
@@ -51,6 +53,8 @@ public class TaskController {
         }
         System.out.println("Task updated");
     }
+
+
 
     //functionality for removing tasks
     @PostMapping("/deleteTask")
@@ -99,6 +103,8 @@ public class TaskController {
         }
         return taskList.get(taskRef).getSubTasks();
     }
+
+
 
 
     @PostMapping("/changeSubTask")
@@ -161,7 +167,24 @@ public class TaskController {
         return "done. " + subObjective + " subtask deleted";
     }
 
-    
+
+
+    // Method to retrieve a subtask
+    @GetMapping("/getSubTask")
+    public SubTask getSubTask(@RequestBody TaskDTO taskDTO) {
+
+        String objective = taskDTO.getObjective();
+        SubTask theSubTask = new SubTask("null", "null");
+
+        for (Task task : taskList) {
+            for (SubTask subTask : task.getSubTasks()) {
+                if (subTask.getSubObjective().equals(objective)) {
+                    theSubTask = subTask;
+                }
+            }
+        }
+        return theSubTask;
+    }
 
 
     // Method to retrieve all subtasks of a particular task
