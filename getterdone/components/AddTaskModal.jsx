@@ -68,7 +68,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
-              <button type="button" className="btn btn-primary" onClick={handleSave} disabled={!taskDescription || !category || !priority || !dueDate}>
+              <button type="button" className="btn btn-primary" style={{ backgroundColor: "#005c59", borderColor: "#005c59" }} onClick={handleSave} disabled={!taskDescription || !category || !priority || !dueDate}>
                 Save Task
               </button>
             </div>

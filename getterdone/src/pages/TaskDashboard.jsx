@@ -6,20 +6,27 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AddTaskModal from "../../components/AddTaskModal";
 import NavigationBar from "../../components/NavigationBar";
 import CategorySidebar from "../../components/CategorySidebar";
+import { getAllTasks, createTask } from "../../lib/TaskUtils";
 
 export default function TaskDashboardPage() {
   const [categories, setCategories] = useState(["Work", "Personal"]);
-  const [tasks, setTasks] = useState(() => {
-    const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    return savedTasks;
-  });
+  const [tasks, setTasks] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+    async function fetchTasks() {
+      try {
+        const fetchedTasks = await getAllTasks();
+        setTasks(fetchedTasks);
+      } catch (error) {
+        console.error("Failed to fetch tasks:", error);
+      }
+    }
+
+    fetchTasks();
+  }, []);
 
   const addCategory = (newCategory) => {
     setCategories((prevCategories) => [...prevCategories, newCategory]);
@@ -33,11 +40,15 @@ export default function TaskDashboardPage() {
     );
   };
 
-  const addTask = (newTask) => {
-    const updatedTasks = [...tasks, { id: tasks.length + 1, title: newTask.taskDescription, completed: false, category: newTask.category, dueDate: newTask.dueDate }];
-    setTasks(updatedTasks);
-    setIsModalOpen(false);
-    navigate("/tasks");
+  const addTask = async (newTask) => {
+    try {
+      const createdTask = await createTask(newTask);
+      setTasks((prevTasks) => [...prevTasks, createdTask]);
+      setIsModalOpen(false);
+      navigate("/tasks");
+    } catch (error) {
+      console.error("Failed to create task:", error);
+    }
   };
 
   const selectCategory = (category) => {
@@ -64,7 +75,7 @@ export default function TaskDashboardPage() {
         <main className="col p-4 bg-white shadow-sm">
           <h1 className="h3 fw-bold">Task Dashboard</h1>
           {selectedCategory && <h2 className="h5 fw-bold">Category: {selectedCategory}</h2>}
-          <button className="btn btn-success mb-3" onClick={() => setIsModalOpen(true)}>
+          <button className="btn mb-3" style={{ backgroundColor: "#005c59", color: "white" }} onClick={() => setIsModalOpen(true)}>
             + Add New Task
           </button>
           <Chatbox />

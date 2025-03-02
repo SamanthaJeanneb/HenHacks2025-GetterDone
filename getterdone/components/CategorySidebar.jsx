@@ -29,7 +29,7 @@ export default function CategorySidebar({ categories, addCategory, selectCategor
         ))}
       </ul>
       <div className="d-flex justify-content-between align-items-center">
-        <button className="btn btn-primary btn-sm" onClick={() => setIsModalOpen(true)}>+</button>
+        <button className="btn btn-sm" style={{ backgroundColor: "#005c59", color: "white" }} onClick={() => setIsModalOpen(true)}>+</button>
       </div>
       <div className="mt-3">
         <Link to="/calendar" className="btn btn-outline-secondary w-100">View Calendar</Link>
@@ -56,7 +56,7 @@ export default function CategorySidebar({ categories, addCategory, selectCategor
           <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleAddCategory}>
+          <Button variant="primary" style={{ backgroundColor: "#005c59", borderColor: "#005c59" }} onClick={handleAddCategory}>
             Add Category
           </Button>
         </Modal.Footer>

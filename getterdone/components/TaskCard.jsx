@@ -37,7 +37,7 @@ export default function TaskCard({ task, toggleCompletion }) {
             {task.title}
           </span>
           <div className="d-flex gap-2">
-            <button className="btn btn-sm btn-outline-primary" onClick={() => toggleCompletion(task.id)}>
+            <button className="btn btn-sm" style={{ backgroundColor: "#005c59", color: "white" }} onClick={() => toggleCompletion(task.id)}>
               {task.completed ? "Undo" : "Complete"}
             </button>
             <button className="btn btn-sm btn-outline-secondary" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
@@ -87,7 +87,7 @@ export default function TaskCard({ task, toggleCompletion }) {
                 onChange={(e) => setNewSubtask(e.target.value)}
                 placeholder="New subtask"
               />
-              <button className="btn btn-primary" onClick={addSubtask}>+</button>
+              <button className="btn btn-primary" style={{ backgroundColor: "#005c59", borderColor: "#005c59" }} onClick={addSubtask}>+</button>
             </div>
           </div>
         )}
