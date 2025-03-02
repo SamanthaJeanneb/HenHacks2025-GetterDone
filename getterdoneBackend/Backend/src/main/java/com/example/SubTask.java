@@ -12,6 +12,9 @@ public class SubTask {
         subObjective = object2;
     }
 
+    public void setSubObjective(String subObjective) {
+        this.subObjective = subObjective;
+    }
 
     public String getSubObjective() {
         return subObjective;
