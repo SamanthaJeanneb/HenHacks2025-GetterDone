@@ -5,13 +5,15 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
   const [taskDescription, setTaskDescription] = useState("");
   const [category, setCategory] = useState("");
   const [priority, setPriority] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   const handleSave = () => {
-    if (taskDescription && category && priority) {
-      onSave({ taskDescription, category, priority });
+    if (taskDescription && category && priority && dueDate) {
+      onSave({ taskDescription, category, priority, dueDate });
       setTaskDescription("");
       setCategory("");
       setPriority("");
+      setDueDate("");
       onClose();
     }
   };
@@ -54,10 +56,19 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
                   <option value="High">High</option>
                 </select>
               </div>
+              <div className="mb-3">
+                <label className="form-label">Due Date</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                />
+              </div>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
-              <button type="button" className="btn btn-primary" onClick={handleSave} disabled={!taskDescription || !category || !priority}>
+              <button type="button" className="btn btn-primary" onClick={handleSave} disabled={!taskDescription || !category || !priority || !dueDate}>
                 Save Task
               </button>
             </div>

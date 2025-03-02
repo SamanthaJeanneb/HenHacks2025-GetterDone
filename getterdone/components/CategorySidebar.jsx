@@ -1,0 +1,66 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Modal, Button, Form } from "react-bootstrap";
+
+export default function CategorySidebar({ categories, addCategory, selectCategory, selectedCategory }) {
+  const [newCategory, setNewCategory] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddCategory = () => {
+    if (newCategory.trim() !== "") {
+      addCategory(newCategory);
+      setNewCategory("");
+      setIsModalOpen(false);
+    }
+  };
+
+  return (
+    <aside className="col-3 p-4 border-end bg-light shadow-sm">
+      <h2 className="h5 fw-bold">Categories</h2>
+      <ul className="list-group mb-3">
+        {categories.map((category, index) => (
+          <li
+            key={index}
+            className={`list-group-item ${category === selectedCategory ? "active" : ""}`}
+            onClick={() => selectCategory(category)}
+          >
+            {category}
+          </li>
+        ))}
+      </ul>
+      <div className="d-flex justify-content-between align-items-center">
+        <button className="btn btn-primary btn-sm" onClick={() => setIsModalOpen(true)}>+</button>
+      </div>
+      <div className="mt-3">
+        <Link to="/calendar" className="btn btn-outline-secondary w-100">View Calendar</Link>
+      </div>
+
+      <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Category</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="newCategory">
+              <Form.Label>Category Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                placeholder="Enter category name"
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleAddCategory}>
+            Add Category
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </aside>
+  );
+}
