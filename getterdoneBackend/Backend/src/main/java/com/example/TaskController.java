@@ -32,6 +32,25 @@ public class TaskController {
         return newTask;
     }
 
+    @PostMapping("/changeTask")
+    public void changeTask(@RequestBody TaskDTO taskDTO) {
+
+        String objective = taskDTO.getObjective();
+        String newObjective = taskDTO.getProposedChange();
+
+        int counter = 0;
+
+        for (Task task : taskList) {
+            if (task.getObjective().equals(objective)) {
+                taskList.get(counter).setObjective(newObjective);
+            }
+            else {
+                counter++;
+            }
+        }
+        System.out.println("Task updated");
+    }
+
     //functionality for removing tasks
     @PostMapping("/deleteTask")
     public String deleteTask(@RequestBody TaskDTO taskDTO) {
@@ -78,6 +97,40 @@ public class TaskController {
             taskList.get(taskRef).populateSubTasks(str);
         }
         return taskList.get(taskRef).getSubTasks();
+    }
+
+
+    @PostMapping("/changeSubTask")
+    public void changeSubTask(@RequestBody SubTaskDTO subTaskDTO) {
+
+        String objective = subTaskDTO.getObjective();
+        String subObjective = subTaskDTO.getSubobjectives();
+        String newSubObjective = subTaskDTO.getProposedSubObjective();
+
+        int counter = 0;
+        int taskRef = 0; //default is 0 once again
+
+        for (Task task : taskList) {
+            if (task.getObjective().equals(objective)) {
+                taskRef = counter;
+            }
+            else {
+                counter++;
+            }
+        }
+
+        counter = 0;
+
+        for (SubTask task : taskList.get(taskRef).getSubTasks()) {
+            if (task.getSubObjective().equals(subObjective)){
+                taskList.get(taskRef).getSubTasks().get(counter).setSubObjective(newSubObjective);
+            }
+            else {
+                counter++;
+            }
+        }
+
+        System.out.println("Subtask updated");
     }
 
 

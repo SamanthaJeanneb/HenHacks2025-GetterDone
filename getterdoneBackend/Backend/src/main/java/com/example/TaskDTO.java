@@ -8,9 +8,18 @@ public class TaskDTO {
     private int priority;
     private Date date;
     private String category;
+    private String proposedChange;
 
     // Getters and setters
 
+
+    public void setProposedChange(String proposedChange) {
+        this.proposedChange = proposedChange;
+    }
+
+    public String getProposedChange() {
+        return proposedChange;
+    }
 
     public void setObjective(String objective) {
         this.objective = objective;
