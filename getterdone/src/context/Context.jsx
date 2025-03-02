@@ -15,7 +15,6 @@ const ContextProvider = (props) => {
         setLoading(true);
         const response = await runChat(prompt + "Respond with 3 answers 6 words or less seperated by a ;");
         setResultData(response);
-        setPrevPrompts((prev) => [...prev, { sender: "gemini", text: response }]);
         console.log(prevPrompts)
         setLoading(false);
     };
@@ -29,6 +28,7 @@ const ContextProvider = (props) => {
         showResult,
         loading,
         resultData,
+        setResultData,
         input,
         setInput,
     };
