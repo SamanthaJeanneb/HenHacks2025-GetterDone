@@ -23,7 +23,7 @@ public class TaskController {
     @PostMapping("/createTask")
     public Task createTask(@RequestBody TaskDTO taskDTO) {
         // Convert TaskDTO to Task object
-        Task newTask = new Task(taskDTO.getPriority(), taskDTO.getDate(), taskDTO.getCategory(), taskDTO.getCategory());
+        Task newTask = new Task(taskDTO.getPriority(), taskDTO.getDate(), taskDTO.getCategory(), taskDTO.getObjective());
 
         // Optionally set completion status (false by default in constructor)
         taskList.add(newTask);
@@ -35,7 +35,7 @@ public class TaskController {
 
 
     @PostMapping("/populateSubTasks")
-    public void populateSubTasks(@RequestBody SubTaskDTO subtaskDTO) {
+    public List<SubTask> populateSubTasks(@RequestBody SubTaskDTO subtaskDTO) {
 
         String allSubObjectives = subtaskDTO.getSubobjectives();
         String[] arr = allSubObjectives.split(";");
@@ -60,6 +60,7 @@ public class TaskController {
         for (String str : arr) {
             taskList.get(taskRef).populateSubTasks(str);
         }
+        return taskList.get(taskRef).getSubTasks();
     }
 
     // Method to retrieve all subtasks of a particular task
