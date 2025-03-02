@@ -5,15 +5,20 @@ export default function TimerModal({ isOpen, onClose, duration }) {
   const [timeLeft, setTimeLeft] = useState(duration * 60); // Convert minutes to seconds
 
   useEffect(() => {
-    if (timeLeft > 0) {
-      const timerId = setInterval(() => {
-        setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
-      }, 1000);
-      return () => clearInterval(timerId);
-    } else if (timeLeft === 0) {
-      // Timer reached 0, you can add additional logic here if needed
+    setTimeLeft(duration * 60); // Reset timer when modal opens
+  }, [duration]);
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
       alert("Time's up! Please check off the completed subtasks.");
+      return;
     }
+
+    const timerId = setInterval(() => {
+      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(timerId);
   }, [timeLeft]);
 
   const formatTime = (seconds) => {

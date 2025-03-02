@@ -8,6 +8,7 @@ export default function WorkNowModal({ isOpen, onClose }) {
   const [tasks, setTasks] = useState([]);
   const [suggestedTask, setSuggestedTask] = useState(null);
   const [isTimerModalOpen, setIsTimerModalOpen] = useState(false); // State for TimerModal
+  const [isWorkNowVisible, setIsWorkNowVisible] = useState(true); // Controls visibility
   const { onSent, resultData, setResultData } = useContext(Context);
 
   useEffect(() => {
@@ -37,6 +38,12 @@ export default function WorkNowModal({ isOpen, onClose }) {
 
   const handleStartTimer = () => {
     setIsTimerModalOpen(true); // Open the TimerModal
+    setIsWorkNowVisible(false); // Hide WorkNowModal
+  };
+
+  const handleTimerClose = () => {
+    setIsTimerModalOpen(false);
+    setIsWorkNowVisible(true); // Show WorkNowModal again after timer ends
   };
 
   useEffect(() => {
@@ -48,42 +55,45 @@ export default function WorkNowModal({ isOpen, onClose }) {
 
   return (
     <>
-      <Modal show={isOpen} onHide={onClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Work Now</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="timer">
-              <Form.Label>Set Timer (minutes)</Form.Label>
-              <Form.Control
-                type="number"
-                value={timer}
-                onChange={(e) => setTimer(e.target.value)}
-                placeholder="Enter time in minutes"
-              />
-            </Form.Group>
-            <Button variant="primary" onClick={handleSuggestTask} style={{ backgroundColor: "#005c59", borderColor: "#005c59" }}>
-              Suggest Task
+      {/* Work Now Modal - Hidden when timer starts */}
+      {isWorkNowVisible && (
+        <Modal show={isOpen} onHide={onClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Work Now</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="timer">
+                <Form.Label>Set Timer (minutes)</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={timer}
+                  onChange={(e) => setTimer(Number(e.target.value))}
+                  placeholder="Enter time in minutes"
+                />
+              </Form.Group>
+              <Button variant="primary" onClick={handleSuggestTask} style={{ backgroundColor: "#005c59", borderColor: "#005c59" }}>
+                Suggest Task
+              </Button>
+              {suggestedTask && (
+                <div className="mt-3">
+                  <h5>Suggested Task:</h5>
+                  <p>{suggestedTask}</p>
+                </div>
+              )}
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={onClose}>Close</Button>
+            <Button variant="primary" onClick={handleStartTimer} style={{ backgroundColor: "#005c59", borderColor: "#005c59" }}>
+              Start Timer
             </Button>
-            {suggestedTask && (
-              <div className="mt-3">
-                <h5>Suggested Task:</h5>
-                <p>{suggestedTask}</p>
-              </div>
-            )}
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={onClose}>Close</Button>
-          <Button variant="primary" onClick={handleStartTimer} style={{ backgroundColor: "#005c59", borderColor: "#005c59" }}>
-            Start Timer
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          </Modal.Footer>
+        </Modal>
+      )}
 
-      {/* Timer Modal */}
-      <TimerModal isOpen={isTimerModalOpen} onClose={() => setIsTimerModalOpen(false)} duration={timer} />
+      {/* Timer Modal - Opens when timer starts */}
+      <TimerModal isOpen={isTimerModalOpen} onClose={handleTimerClose} duration={timer} />
     </>
   );
 }
