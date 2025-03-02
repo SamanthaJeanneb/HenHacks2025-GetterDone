@@ -10,12 +10,16 @@ const ContextProvider = (props) => {
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
     const [resultData, setResultData] = useState("");
+    const [suggestedSubtasks, setSuggestedSubtasks] = useState([]);
 
-    const onSent = async (prompt) => {
+    const onSent = async (prompt, isSubtask = false) => {
         setLoading(true);
-        const response = await runChat(prompt + "respond in one sentence");
-        setResultData(response);
-        console.log(prevPrompts)
+        const response = await runChat(prompt + " respond in one sentence");
+        if (isSubtask) {
+            setSuggestedSubtasks(response.split(';').map(subtask => subtask.trim()));
+        } else {
+            setResultData(response);
+        }
         setLoading(false);
     };
 
@@ -31,6 +35,8 @@ const ContextProvider = (props) => {
         setResultData,
         input,
         setInput,
+        suggestedSubtasks,
+        setSuggestedSubtasks,
     };
 
     return (

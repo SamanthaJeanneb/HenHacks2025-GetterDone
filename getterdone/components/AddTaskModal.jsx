@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Context } from '../src/context/Context';
 
 export default function AddTaskModal({ isOpen, onClose, onSave }) {
   const [taskDescription, setTaskDescription] = useState("");
   const [category, setCategory] = useState("");
   const [priority, setPriority] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const { input, setInput, onSent, suggestedSubtasks } = useContext(Context);
 
   const handleSave = async () => {
     if (taskDescription && category && priority && dueDate) {
@@ -35,6 +37,10 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
         console.error("Error:", error);
       }
     }
+  };
+
+  const handleSuggestSubtasks = () => {
+    onSent(taskDescription + "actually, dont answer in 1 sentence. instead answer three responses of 6 words or less seperated by a ; that explain the steps I would need to take to complete this task.", true);
   };
 
   return (
@@ -84,6 +90,19 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
                   onChange={(e) => setDueDate(e.target.value)}
                 />
               </div>
+              <button onClick={handleSuggestSubtasks}>Suggest Subtasks</button>
+              {suggestedSubtasks.length > 0 && (
+                <div>
+                  {suggestedSubtasks.map((subtask, index) => (
+                    <div key={index} className="form-check">
+                      <input className="form-check-input" type="checkbox" id={`subtask-${index}`} />
+                      <label className="form-check-label" htmlFor={`subtask-${index}`}>
+                        {subtask}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
