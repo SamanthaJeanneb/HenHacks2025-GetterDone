@@ -30,16 +30,7 @@ export default function CalendarPage() {
         const response = await fetch("http://localhost:8080/tasks/getAllTasks");
         if (response.ok) {
           const fetchedTasks = await response.json();
-          setTasks([
-            ...fetchedTasks,
-            {
-              id: "manual-task",
-              description: "Manual Task",
-              startDate: new Date().toISOString().split("T")[0],
-              date: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().split("T")[0], // End date set to one week from today
-              completed: false,
-            },
-          ]);
+          setTasks(fetchedTasks);
         } else {
           console.error("Failed to fetch tasks");
         }
@@ -51,25 +42,11 @@ export default function CalendarPage() {
     fetchTasks();
   }, []);
 
-  const toggleCompletion = async (taskId) => {
+  const toggleCompletion = (taskId) => {
     const updatedTasks = tasks.map((task) =>
       task.id === taskId ? { ...task, completed: !task.completed } : task
     );
     setTasks(updatedTasks);
-
-    // Optionally, update the backend with the new completion status
-    try {
-      const taskToUpdate = updatedTasks.find((task) => task.id === taskId);
-      await fetch(`http://localhost:8080/tasks/updateTask/${taskId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(taskToUpdate),
-      });
-    } catch (error) {
-      console.error("Error updating task:", error);
-    }
   };
 
   const events = tasks.map((task) => {
@@ -79,7 +56,7 @@ export default function CalendarPage() {
 
     return {
       ...task,
-      title: task.description,
+      title: task.objective,
       start: startDate,
       end: endDate,
     };
@@ -94,26 +71,35 @@ export default function CalendarPage() {
         borderRadius: '0px',
         opacity: 0.8,
         display: 'block',
+        position: 'relative',
       },
     };
   };
 
+  const CustomEventComponent = ({ event }) => (
+    <div>
+      <span>{event.title}</span>
+    </div>
+  );
+
   return (
-    <div className="d-flex vh-100 vw-100 flex-column bg-light">
+    <div className="d-flex vh-100 vw-100 flex-column bg-light" style={{ overflow: 'hidden' }}>
       <NavigationBar />
-      <div className="flex-grow-1 p-4 bg-white shadow-sm">
-        <h1 className="h3 fw-bold">Task Calendar</h1>
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 500 }}
-          eventPropGetter={eventStyleGetter}
-          components={{
-            event: (props) => <CustomEvent {...props} toggleCompletion={toggleCompletion} />,
-          }}
-        />
+      <div className="flex-grow-1 d-flex justify-content-center align-items-center p-4 bg-white shadow-sm" style={{ overflow: 'hidden' }}>
+        <div style={{ width: '90%', overflow: 'hidden' }}>
+          <h1 className="h3 fw-bold">Task Calendar</h1>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 700, overflow: 'hidden' }} // Adjusted height to make the calendar taller
+            eventPropGetter={eventStyleGetter}
+            components={{
+              event: CustomEventComponent,
+            }}
+          />
+        </div>
       </div>
     </div>
   );

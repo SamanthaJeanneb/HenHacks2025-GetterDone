@@ -1,13 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Modal, Button, Form } from "react-bootstrap";
 
 export default function CategorySidebar({ categories, addCategory, selectCategory, selectedCategory }) {
   const [newCategory, setNewCategory] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [localCategories, setLocalCategories] = useState(() => {
+    const savedCategories = localStorage.getItem("categories");
+    return savedCategories ? JSON.parse(savedCategories) : categories;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("categories", JSON.stringify(localCategories));
+  }, [localCategories]);
 
   const handleAddCategory = () => {
     if (newCategory.trim() !== "") {
+      const updatedCategories = [...localCategories, newCategory];
+      setLocalCategories(updatedCategories);
       addCategory(newCategory);
       setNewCategory("");
       setIsModalOpen(false);
@@ -33,7 +43,7 @@ export default function CategorySidebar({ categories, addCategory, selectCategor
         >
           All
         </li>
-        {categories.map((category, index) => (
+        {localCategories.map((category, index) => (
           <li
             key={index}
             className={`list-group-item ${category === selectedCategory ? "active" : ""}`}

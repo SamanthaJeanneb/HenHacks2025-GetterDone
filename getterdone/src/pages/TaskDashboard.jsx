@@ -12,7 +12,10 @@ import HelpMessage from '../../components/HelpMessage'; // Import HelpMessage
 import WorkNowModal from "../../components/WorkNowModal"; // Import WorkNowModal
 
 export default function TaskDashboardPage() {
-  const [categories, setCategories] = useState(["Work", "Personal"]);
+  const [categories, setCategories] = useState(() => {
+    const savedCategories = localStorage.getItem("categories");
+    return savedCategories ? JSON.parse(savedCategories) : ["Work", "Personal"];
+  });
   const [tasks, setTasks] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,7 +39,11 @@ export default function TaskDashboardPage() {
   }, []);
 
   const addCategory = (newCategory) => {
-    setCategories((prevCategories) => [...prevCategories, newCategory]);
+    setCategories((prevCategories) => {
+      const updatedCategories = [...prevCategories, newCategory];
+      localStorage.setItem("categories", JSON.stringify(updatedCategories));
+      return updatedCategories;
+    });
   };
 
   const toggleTaskCompletion = (id) => {
@@ -137,7 +144,7 @@ export default function TaskDashboardPage() {
       </div>
 
       {/* Add Task Modal */}
-      <AddTaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSave={addTask} />
+      <AddTaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSave={addTask} selectedCategory={selectedCategory} />
 
       {/* Task Popup */}
       <TaskPopup task={selectedTask} isOpen={isTaskPopupOpen} onClose={() => setIsTaskPopupOpen(false)} />
