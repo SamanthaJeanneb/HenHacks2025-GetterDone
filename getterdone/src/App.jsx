@@ -1,6 +1,6 @@
 // import React, {useState} from 'react'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import TaskDashboardPage from "./assets/pages/TaskDashboard";
+import TaskDashboardPage from "./pages/TaskDashboard";
 
 export default function Component() { 
     return (

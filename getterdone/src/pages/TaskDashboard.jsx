@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TaskCard from "../../../components/TaskCard";
+import TaskCard from "../../components/TaskCard";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AddTaskModal from "../../../components/AddTaskModal";
-import NavigationBar from "../../../components/NavigationBar";
+import AddTaskModal from "../../components/AddTaskModal";
+import NavigationBar from "../../components/NavigationBar";
 
 export default function TaskDashboardPage() {
   const [categories, setCategories] = useState(["Work", "Personal"]);
