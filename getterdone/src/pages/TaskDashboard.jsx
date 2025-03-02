@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Chatbox from '../../components/Chatbox';
 import TaskCard from "../../components/TaskCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddTaskModal from "../../components/AddTaskModal";
@@ -66,7 +67,7 @@ export default function TaskDashboardPage() {
           <button className="btn btn-success mb-3" onClick={() => setIsModalOpen(true)}>
             + Add New Task
           </button>
-
+          <Chatbox />
           {/* Current Tasks */}
           <section>
             <h2 className="h5 fw-bold">Current Tasks</h2>
