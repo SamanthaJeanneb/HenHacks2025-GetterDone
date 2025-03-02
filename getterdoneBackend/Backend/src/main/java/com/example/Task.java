@@ -24,6 +24,19 @@ public class Task {
     }
 
 
+    public void removeSubTask(String subObjective) {
+        int counter = 0;
+
+        for (SubTask task : subTasks) {
+            if (task.getSubObjective().equals(subObjective)) {
+                subTasks.remove(subTasks.get(counter));
+            }
+            else {
+                counter++;
+            }
+        }
+    }
+
     public String getObjective() {
         return objective;
     }
