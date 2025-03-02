@@ -2,7 +2,7 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import TaskDashboardPage from "./assets/pages/TaskDashboard";
 
-export default function Component() {
+export default function Component() { 
     return (
         <>
             <BrowserRouter>
