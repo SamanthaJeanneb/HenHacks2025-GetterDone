@@ -79,7 +79,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <workingDirectory>${project.basedir}/../../getterdone</workingDirectory>
+                            <workingDirectory>${project.basedir}/frontend</workingDirectory>
                             <arguments>ci --no-audit --no-fund</arguments>
                         </configuration>
                     </execution>
@@ -90,7 +90,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <workingDirectory>${project.basedir}/../../getterdone</workingDirectory>
+                            <workingDirectory>${project.basedir}/frontend</workingDirectory>
                             <arguments>run build</arguments>
                         </configuration>
                     </execution>
@@ -108,7 +108,7 @@
                             <target>
                                 <mkdir dir="${project.basedir}/src/main/resources/static"/>
                                 <copy todir="${project.basedir}/src/main/resources/static">
-                                    <fileset dir="${project.basedir}/../../getterdone/dist"/>
+                                    <fileset dir="${project.basedir}/frontend/dist"/>
                                 </copy>
                             </target>
                         </configuration>
