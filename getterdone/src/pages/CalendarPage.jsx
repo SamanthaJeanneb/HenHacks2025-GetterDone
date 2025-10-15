@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getAllTasks } from "../../lib/TaskUtils";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -27,13 +28,8 @@ export default function CalendarPage() {
   useEffect(() => {
     async function fetchTasks() {
       try {
-        const response = await fetch("http://localhost:8080/tasks/getAllTasks");
-        if (response.ok) {
-          const fetchedTasks = await response.json();
-          setTasks(fetchedTasks);
-        } else {
-          console.error("Failed to fetch tasks");
-        }
+        const fetchedTasks = await getAllTasks();
+        setTasks(fetchedTasks);
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }

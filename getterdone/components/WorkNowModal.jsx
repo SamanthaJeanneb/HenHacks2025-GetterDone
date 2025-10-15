@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Context } from '../src/context/Context';
+import { getAllTasks } from "../lib/TaskUtils";
 import TimerModal from "./TimerModal"; // Import TimerModal
 
 export default function WorkNowModal({ isOpen, onClose }) {
@@ -14,13 +15,8 @@ export default function WorkNowModal({ isOpen, onClose }) {
   useEffect(() => {
     async function fetchTasks() {
       try {
-        const response = await fetch("http://localhost:8080/tasks/getAllTasks");
-        if (response.ok) {
-          const fetchedTasks = await response.json();
-          setTasks(fetchedTasks);
-        } else {
-          console.error("Failed to fetch tasks");
-        }
+        const fetchedTasks = await getAllTasks();
+        setTasks(fetchedTasks);
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }

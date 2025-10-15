@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Context } from '../src/context/Context';
+import { createTask } from "../lib/TaskUtils";
 
 export default function AddTaskModal({ isOpen, onClose }) {
   const [taskDescription, setTaskDescription] = useState("");
@@ -16,20 +17,8 @@ export default function AddTaskModal({ isOpen, onClose }) {
       console.log("New task:", newTask); // Debug log
 
       try {
-        const response = await fetch("http://localhost:8080/tasks/createTask", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newTask),
-        });
-
-        if (response.ok) {
-          console.log("Task added successfully");
-          // Optionally, you can handle the response here
-        } else {
-          console.error("Failed to add task");
-        }
+        await createTask(newTask);
+        console.log("Task added successfully");
       } catch (error) {
         console.error("Error adding task:", error);
       }

@@ -1,4 +1,6 @@
-const BASE_URL = "http://localhost:8080/tasks";
+const BASE_URL = (typeof import !== 'undefined' && import.meta && import.meta.env && import.meta.env.VITE_API_BASE_URL)
+  ? `${import.meta.env.VITE_API_BASE_URL}/tasks`
+  : "/tasks";
 
 // Function to create a new task
 export async function createTask(task) {

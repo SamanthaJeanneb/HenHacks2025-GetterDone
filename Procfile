@@ -1,0 +1,1 @@
+web: java -Dserver.port= -jar getterdoneBackend/Backend/target/GetterDoneBackend-0.0.1-SNAPSHOT.jar
