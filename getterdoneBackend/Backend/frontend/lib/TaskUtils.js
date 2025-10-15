@@ -1,6 +1,5 @@
-const BASE_URL = (typeof import !== 'undefined' && import.meta && import.meta.env && import.meta.env.VITE_API_BASE_URL)
-  ? `${import.meta.env.VITE_API_BASE_URL}/tasks`
-  : "/tasks";
+const apiBase = (import.meta?.env?.VITE_API_BASE_URL || "").toString();
+const BASE_URL = apiBase ? `${apiBase.replace(/\/$/, "")}/tasks` : "/tasks";
 
 // Function to create a new task
 export async function createTask(task) {
