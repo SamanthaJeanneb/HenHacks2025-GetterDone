@@ -10,14 +10,6 @@ public class SpaController {
     public String index() {
         return "forward:/index.html";
     }
-
-    @GetMapping({
-            "/{path:^(?!api|tasks|assets|static|favicon\\.ico|robots\\.txt|manifest\\.json).*$}",
-            "/**/{path:^(?!api|tasks|assets|static).*$}"
-    })
-    public String any() {
-        return "forward:/index.html";
-    }
 }
 
 
