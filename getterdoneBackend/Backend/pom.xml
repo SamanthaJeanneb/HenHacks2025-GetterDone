@@ -68,6 +68,7 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
+                            <workingDirectory>${project.basedir}/frontend</workingDirectory>
                             <nodeVersion>v18.20.4</nodeVersion>
                             <npmVersion>10.7.0</npmVersion>
                         </configuration>
